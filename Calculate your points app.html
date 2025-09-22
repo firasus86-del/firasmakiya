@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نموذج احتساب النقاط اعداد م.م فراس مكية</title>
+  <style>
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+      direction: rtl;
+    }
+    .container {
+      max-width: 650px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: green;
+    }
+    .thanks-group {
+      margin-top: 8px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #f9f9f9;
+    }
+    .thanks-group input[type="number"] {
+      width: 120px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>نموذج احتساب النقاط اعداد م.م فراس مكية</h2>
+
+    <!-- الشهادة -->
+    <label for="certificate">الشهادة:</label>
+    <select id="certificate">
+      <option value="">اختر</option>
+      <option value="10">دكتوراه</option>
+      <option value="9">ماجستير</option>
+      <option value="8">دبلوم عالي</option>
+      <option value="7">بكالوريوس</option>
+      <option value="6">دبلوم</option>
+      <option value="5">اعدادية</option>
+      <option value="4">متوسطة</option>
+      <option value="3">دون المتوسطة</option>
+    </select>
+
+    <!-- الدرجة -->
+    <label for="degree">الدرجة:</label>
+    <select id="degree">
+      <option value="">اختر</option>
+      <option value="8">الأولى (أ)</option>
+      <option value="7">الأولى (ب)</option>
+      <option value="6">الثانية</option>
+      <option value="5">الثالثة</option>
+      <option value="4">الرابعة</option>
+      <option value="3">الخامسة</option>
+      <option value="2">السادسة</option>
+      <option value="2">السابعة</option>
+      <option value="1">الثامنة</option>
+      <option value="1">التاسعة</option>
+      <option value="1">العاشرة</option>
+    </select>
+
+    <!-- المنصب -->
+    <label for="position">المنصب:</label>
+    <select id="position">
+      <option value="">اختر</option>
+      <option value="15">درجة خاصة</option>
+      <option value="12">مدير عام</option>
+      <option value="9">معاون مدير عام</option>
+      <option value="6">مدير قسم</option>
+      <option value="3">مسؤول شعبة</option>
+      <option value="0">موظف</option>
+    </select>
+
+    <!-- سنوات الخدمة -->
+    <label for="service">سنوات الخدمة:</label>
+    <input type="number" id="service" min="0" placeholder="ادخل عدد السنوات">
+
+    <!-- كتب الشكر -->
+    <label>كتب الشكر:</label>
+    <div class="thanks-group">
+      <input type="checkbox" id="minister" value="3">
+      <label for="minister">وزير</label>
+      <input type="number" id="ministerCount" placeholder="عدد" min="0" disabled>
+    </div>
+    <div class="thanks-group">
+      <input type="checkbox" id="deputy" value="2">
+      <label for="deputy">وكيل</label>
+      <input type="number" id="deputyCount" placeholder="عدد" min="0" disabled>
+    </div>
+    <div class="thanks-group">
+      <input type="checkbox" id="head" value="2">
+      <label for="head">رئيس جهاز</label>
+      <input type="number" id="headCount" placeholder="عدد" min="0" disabled>
+    </div>
+    <div class="thanks-group">
+      <input type="checkbox" id="advisor" value="1">
+      <label for="advisor">مستشار</label>
+      <input type="number" id="advisorCount" placeholder="عدد" min="0" disabled>
+    </div>
+    <div class="thanks-group">
+      <input type="checkbox" id="gm" value="1">
+      <label for="gm">مدير عام</label>
+      <input type="number" id="gmCount" placeholder="عدد" min="0" disabled>
+    </div>
+
+    <button onclick="calculatePoints()">احتساب</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // تفعيل وإلغاء تفعيل الحقول بناءً على اختيار الـ checkbox
+    document.querySelectorAll(".thanks-group input[type=checkbox]").forEach(cb => {
+      cb.addEventListener("change", function() {
+        const input = this.parentElement.querySelector("input[type=number]");
+        input.disabled = !this.checked;
+        if (!this.checked) input.value = "";
+      });
+    });
+
+    function calculatePoints() {
+      let total = 0;
+
+      // الشهادة
+      total += parseInt(document.getElementById("certificate").value) || 0;
+
+      // الدرجة
+      total += parseInt(document.getElementById("degree").value) || 0;
+
+      // المنصب
+      total += parseInt(document.getElementById("position").value) || 0;
+
+      // سنوات الخدمة
+      let service = parseInt(document.getElementById("service").value) || 0;
+      if (service % 2 !== 0) {
+        service += 1; // تحويل الفردي للأعلى
+      }
+      total += service / 2;
+
+      // كتب الشكر (الجميع)
+      document.querySelectorAll(".thanks-group").forEach(group => {
+        const cb = group.querySelector("input[type=checkbox]");
+        const countInput = group.querySelector("input[type=number]");
+        if (cb.checked) {
+          const factor = parseInt(cb.value);
+          const count = parseInt(countInput.value) || 0;
+          total += factor * count;
+        }
+      });
+
+      document.getElementById("result").innerText = "مجموع النقاط: " + total;
+    }
+  </script>
+</body>
+</html>
