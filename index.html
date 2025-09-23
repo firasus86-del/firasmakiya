@@ -114,31 +114,41 @@
     <label for="service">سنوات الخدمة:</label>
     <input type="number" id="service" min="0" placeholder="ادخل عدد السنوات">
 
+    <!-- اللقب العلمي -->
+    <label for="title">اللقب العلمي:</label>
+    <select id="title">
+      <option value="">اختر</option>
+      <option value="8">استاذ</option>
+      <option value="6">استاذ مساعد</option>
+      <option value="4">مدرس</option>
+      <option value="2">مدرس مساعد</option>
+    </select>
+
     <!-- كتب الشكر -->
     <label>كتب الشكر:</label>
     <div class="thanks-group">
       <input type="checkbox" id="minister" value="3">
-      <label for="minister">وزير</label>
+      <label for="minister">معالي الوزير</label>
       <input type="number" id="ministerCount" placeholder="عدد" min="0" disabled>
     </div>
     <div class="thanks-group">
       <input type="checkbox" id="deputy" value="2">
-      <label for="deputy">وكيل</label>
+      <label for="deputy">السيد الوكيل</label>
       <input type="number" id="deputyCount" placeholder="عدد" min="0" disabled>
     </div>
     <div class="thanks-group">
       <input type="checkbox" id="head" value="2">
-      <label for="head">رئيس جهاز</label>
+      <label for="head">السيد رئيس الجهاز</label>
       <input type="number" id="headCount" placeholder="عدد" min="0" disabled>
     </div>
     <div class="thanks-group">
       <input type="checkbox" id="advisor" value="1">
-      <label for="advisor">مستشار</label>
+      <label for="advisor">السيد المستشار</label>
       <input type="number" id="advisorCount" placeholder="عدد" min="0" disabled>
     </div>
     <div class="thanks-group">
       <input type="checkbox" id="gm" value="1">
-      <label for="gm">مدير عام</label>
+      <label for="gm">السيد المدير العام</label>
       <input type="number" id="gmCount" placeholder="عدد" min="0" disabled>
     </div>
 
@@ -163,7 +173,7 @@
       total += parseInt(document.getElementById("certificate").value) || 0;
 
       // الدرجة
-      total += parseInt(document.getElementById("degree").value) || 0;
+      let degreePoints = parseInt(document.getElementById("degree").value) || 0;
 
       // المنصب
       total += parseInt(document.getElementById("position").value) || 0;
@@ -173,9 +183,16 @@
       if (service % 2 !== 0) {
         service += 1; // تحويل الفردي للأعلى
       }
-      total += service / 2;
+      let servicePoints = service / 2;
+      total += servicePoints;  // تضاف بشكل مستقل
 
-      // كتب الشكر (الجميع)
+      // اللقب العلمي
+      let titlePoints = parseInt(document.getElementById("title").value) || 0;
+
+      // المقارنة بين اللقب العلمي والدرجة الوظيفية (نأخذ الأعلى فقط)
+      total += Math.max(degreePoints, titlePoints);
+
+      // كتب الشكر
       document.querySelectorAll(".thanks-group").forEach(group => {
         const cb = group.querySelector("input[type=checkbox]");
         const countInput = group.querySelector("input[type=number]");
